@@ -39,7 +39,7 @@ module ArelConverter
       end
 
       def format_for_hash(key, value)
-        key =~ /\A:/ ? "#{key.sub(':','')}: #{value}" : "#{key} => #{value}"
+        "#{key} => #{value}"
       end
 
     private
