@@ -49,6 +49,7 @@ module ArelConverter
           return key
         end
         rhs = rhs.gsub(/\A\[(.*)\]\z/, '\1').gsub(/\A\{(.*)\}\z/, '\1')
+        rhs.strip!
         "#{key}(#{rhs})"
       end
 

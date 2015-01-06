@@ -32,7 +32,7 @@ describe ArelConverter::Translator::Options do
 
         it 'when it is a hash of associations' do
           scope = %Q{{:joins => {:roles => :users}}}
-          expect(ArelConverter::Translator::Options.translate(scope)).to eq(%Q{joins( roles: :users )})
+          expect(ArelConverter::Translator::Options.translate(scope)).to eq(%Q{joins(roles: :users)})
         end
       end
 
@@ -49,7 +49,7 @@ describe ArelConverter::Translator::Options do
 
         it 'when it is a hash of associations' do
           scope = %Q{{:include => {:roles => :users}}}
-          expect(ArelConverter::Translator::Options.translate(scope)).to eq(%Q{includes( roles: :users )})
+          expect(ArelConverter::Translator::Options.translate(scope)).to eq(%Q{includes(roles: :users)})
         end
       end
 
@@ -66,17 +66,17 @@ describe ArelConverter::Translator::Options do
 
         it 'where they are a single hash' do
           scope = %Q{{:conditions => {:active => 1}}}
-          expect(ArelConverter::Translator::Options.translate(scope)).to eq(%Q{where( active: 1 )})
+          expect(ArelConverter::Translator::Options.translate(scope)).to eq(%Q{where(active: 1)})
         end
 
         it 'where they are a hash' do
           scope = %Q{{:conditions => {:active => 1, :name => 'John'}}}
-          expect(ArelConverter::Translator::Options.translate(scope)).to eq(%Q{where( active: 1, name: "John" )})
+          expect(ArelConverter::Translator::Options.translate(scope)).to eq(%Q{where(active: 1, name: "John")})
         end
 
         it 'where there is a hash including an array' do
           scope = %Q{{:conditions => {:state => ['confirmed', 'partially_received', 'ordered']}}}
-          expect(ArelConverter::Translator::Options.translate(scope)).to eq(%Q{where( state: ["confirmed", "partially_received", "ordered"] )})
+          expect(ArelConverter::Translator::Options.translate(scope)).to eq(%Q{where(state: ["confirmed", "partially_received", "ordered"])})
         end
 
         it 'where there is a where and include' do

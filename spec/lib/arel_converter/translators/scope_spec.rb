@@ -27,7 +27,7 @@ describe ArelConverter::Translator::Scope do
 
       it 'when it is a hash of associations' do
         scope = %Q{scope :my_scope, :joins => {:roles => :users}}
-        expect(ArelConverter::Translator::Scope.translate(scope)).to eq(%Q{scope :my_scope, -> { joins( roles: :users ) }})
+        expect(ArelConverter::Translator::Scope.translate(scope)).to eq(%Q{scope :my_scope, -> { joins(roles: :users) }})
       end
     end
 
@@ -44,12 +44,12 @@ describe ArelConverter::Translator::Scope do
 
       it 'when it is a hash of associations' do
         scope = %Q{scope :my_scope, :include => {:roles => :users}}
-        expect(ArelConverter::Translator::Scope.translate(scope)).to eq(%Q{scope :my_scope, -> { includes( roles: :users ) }})
+        expect(ArelConverter::Translator::Scope.translate(scope)).to eq(%Q{scope :my_scope, -> { includes(roles: :users) }})
       end
 
       it 'when there is a nested hash of associations' do
         scope = %Q{scope :my_scope, :include => [:author => {:roles => :users}]}
-        expect(ArelConverter::Translator::Scope.translate(scope)).to eq(%Q{scope :my_scope, -> { includes( author: { roles: :users } ) }})
+        expect(ArelConverter::Translator::Scope.translate(scope)).to eq(%Q{scope :my_scope, -> { includes(author: { roles: :users }) }})
       end
 
       it 'when there is an array of associations with a nested hash of' do
@@ -71,17 +71,17 @@ describe ArelConverter::Translator::Scope do
 
       it 'where they are a single hash' do
         scope = %Q{scope :my_scope, :conditions => {:active => 1}}
-        expect(ArelConverter::Translator::Scope.translate(scope)).to eq(%Q{scope :my_scope, -> { where( active: 1 ) }})
+        expect(ArelConverter::Translator::Scope.translate(scope)).to eq(%Q{scope :my_scope, -> { where(active: 1) }})
       end
 
       it 'where they are a hash' do
         scope = %Q{scope :my_scope, :conditions => {:active => 1, :name => 'John'}}
-        expect(ArelConverter::Translator::Scope.translate(scope)).to eq(%Q{scope :my_scope, -> { where( active: 1, name: "John" ) }})
+        expect(ArelConverter::Translator::Scope.translate(scope)).to eq(%Q{scope :my_scope, -> { where(active: 1, name: "John") }})
       end
 
       it 'where there is a hash including an array' do
         scope = %Q{scope :my_scope, :conditions => {:state => ['confirmed', 'partially_received', 'ordered']}}
-        expect(ArelConverter::Translator::Scope.translate(scope)).to eq(%Q{scope :my_scope, -> { where( state: ["confirmed", "partially_received", "ordered"] ) }})
+        expect(ArelConverter::Translator::Scope.translate(scope)).to eq(%Q{scope :my_scope, -> { where(state: ["confirmed", "partially_received", "ordered"]) }})
       end
 
       it 'where there is a where and include' do
@@ -91,7 +91,7 @@ describe ArelConverter::Translator::Scope do
 
       it 'where there is a hash with string keys' do
         scope = %Q{scope :my_scope, :conditions => {'products.generic' => true}}
-        expect(ArelConverter::Translator::Scope.translate(scope)).to eq(%Q{scope :my_scope, -> { where( "products.generic" => true ) }})
+        expect(ArelConverter::Translator::Scope.translate(scope)).to eq(%Q{scope :my_scope, -> { where("products.generic" => true) }})
       end
     end
 

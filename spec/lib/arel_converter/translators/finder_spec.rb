@@ -61,6 +61,11 @@ describe ArelConverter::Translator::Finder do
         expect(ArelConverter::Translator::Finder.translate(finder)).to eq(%Q{MyModel.order("created_at DESC").where("active = 1").first})
       end
 
+      it 'with hash conditions in a model' do
+        finder = %Q{MyModel.find(:first, :order => 'created_at DESC', :conditions => {:active => 1})}
+        expect(ArelConverter::Translator::Finder.translate(finder)).to eq(%Q{MyModel.order("created_at DESC").where(active: 1).first})
+      end
+
       it 'without conditions' do
         finder = %Q{self.payment_optimizations.find(:first)}
         expect(ArelConverter::Translator::Finder.translate(finder)).to eq(%Q{self.payment_optimizations.first})
