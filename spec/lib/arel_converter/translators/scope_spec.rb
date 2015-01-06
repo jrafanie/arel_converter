@@ -10,6 +10,11 @@ describe ArelConverter::Translator::Scope do
         expect(ArelConverter::Translator::Scope.translate(scope)).to eq(%Q{scope :my_scope, -> { joins(:roles) }})
       end
 
+      it 'when it is a simple association - leading whitespace' do
+        scope = %Q{scope :my_scope, :joins => :roles}.prepend("  ")
+        expect(ArelConverter::Translator::Scope.translate(scope)).to eq(%Q{scope :my_scope, -> { joins(:roles) }}.prepend("  "))
+      end
+
       it 'when it is an array of simple associations' do
         scope = %Q{scope :my_scope, :joins => [:roles, :users]}
         expect(ArelConverter::Translator::Scope.translate(scope)).to eq(%Q{scope :my_scope, -> { joins(:roles, :users) }})

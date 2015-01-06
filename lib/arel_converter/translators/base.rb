@@ -2,13 +2,24 @@ module ArelConverter
   module Translator
     class Base < Ruby2Ruby
 
+      attr_accessor :leading_whitespace
+
       LINE_LENGTH = 1_000
 
       def self.translate(klass_or_str, method = nil)
-        sexp = klass_or_str.is_a?(String) ? self.parse(klass_or_str) : klass_or_str
+        leading_whitespace = nil
+        sexp =
+          if klass_or_str.is_a?(String)
+            klass_or_str =~ /^(\s+)/
+            leading_whitespace = $1
+            self.parse(klass_or_str)
+          else
+            klass_or_str
+          end
         processor = self.new
+        processor.leading_whitespace = leading_whitespace
         source = processor.process(sexp)
-        processor.post_processing(source)
+        processor.retain_leading_whitespace(processor.post_processing(source))
       end
 
       def self.parse(code)
@@ -21,6 +32,10 @@ module ArelConverter
 
       def post_processing(source)
         source
+      end
+
+      def retain_leading_whitespace(source)
+        leading_whitespace ? source.prepend(leading_whitespace) : source
       end
 
       def format_for_hash(key, value)

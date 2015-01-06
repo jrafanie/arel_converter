@@ -76,6 +76,11 @@ describe ArelConverter::Translator::Association do
       expect(ArelConverter::Translator::Association.translate(finder)).to eq(%Q{has_many :posts})
     end
 
+    it 'should ignore if no options set - leading whitespace' do
+      finder = %Q{has_many :posts}.prepend("  ")
+      expect(ArelConverter::Translator::Association.translate(finder)).to eq(%Q{has_many :posts}.prepend("  "))
+    end
+
     it 'should translate options' do
       finder = %Q{has_many :posts, :conditions => ['posts.active = ?', true]}
       expect(ArelConverter::Translator::Association.translate(finder)).to eq(%Q{has_many :posts, -> { where("posts.active = ?", true) }})

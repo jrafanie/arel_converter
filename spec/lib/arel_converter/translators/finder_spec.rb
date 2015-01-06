@@ -51,6 +51,11 @@ describe ArelConverter::Translator::Finder do
         expect(ArelConverter::Translator::Finder.translate(finder)).to eq(%Q{MyModel.first})
       end
 
+      it 'without conditions in a model - leading whitespace' do
+        finder = %Q{MyModel.find(:first)}.prepend("  ")
+        expect(ArelConverter::Translator::Finder.translate(finder)).to eq(%Q{MyModel.first}.prepend("  "))
+      end
+
       it 'without conditions in a model' do
         finder = %Q{MyModel.find(:first, :order => 'created_at DESC', :conditions => "active = 1")}
         expect(ArelConverter::Translator::Finder.translate(finder)).to eq(%Q{MyModel.order("created_at DESC").where("active = 1").first})
