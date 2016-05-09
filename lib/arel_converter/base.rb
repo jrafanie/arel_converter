@@ -13,7 +13,12 @@ module ArelConverter
     end
 
     def parse_directory(path)
-      Dir[File.join(path, '**/*.rb')].each do |file|
+      [
+        Dir[File.join(path, '**/*.haml')], 
+        Dir[File.join(path, '**/*.erb')], 
+        Dir[File.join(path, '**/*.slim')], 
+        Dir[File.join(path, '**/*.rb')]
+      ].flatten.each do |file|
         begin
           parse_file(file)
         rescue => e
