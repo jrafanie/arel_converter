@@ -3,7 +3,7 @@ module ArelConverter
 
     def grep_matches_in_file(file)
       raw_ar_finders = ''
-      ["find(:all", "find(:first", "find.*:conditions =>", '\.all(', '\.first('].each do |v|
+      ["find(:all", "find(:first", "find.*:conditions =>"].each do |v|
         raw_ar_finders += `grep -hr '#{v}' #{file}`
       end
 

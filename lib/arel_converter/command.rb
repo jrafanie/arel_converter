@@ -22,6 +22,7 @@ module ArelConverter
       if @translators.include?('scope')
         puts "\n== Checking Scopes"
         ArelConverter::Scope.new(options[:path], options).run!
+        ArelConverter::DefaultScope.new(options[:path], options).run!
       end
 
       if @translators.include?('finder')

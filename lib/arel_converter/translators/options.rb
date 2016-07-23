@@ -48,7 +48,7 @@ module ArelConverter
         when 'none', 'reverse_order'
           return key
         end
-        rhs = rhs.gsub(/\A\[(.*)\]\z/, '\1').gsub(/\A\{(.*)\}\z/, '\1')
+        rhs = rhs.gsub(/\A\[(.*)\]\z/, '\1').gsub(/\A\{(.*)\}\z/, '\1').strip
         "#{key}(#{rhs})"
       end
 
